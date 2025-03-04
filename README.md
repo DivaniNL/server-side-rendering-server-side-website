@@ -17,6 +17,11 @@
 <!-- Voeg een mooie poster visual toe 📸 -->
 <!-- Voeg een link toe naar Github Pages 🌐-->
 
+
+Ontwerpkeuzes
+
+Ik heb een hoofdpagina gemaakt van mediahuis waar alle zenders op staan zodat de url strucvtuur klopt
+
 ## Gebruik
 <!--Bij Gebruik staat hoe je project er uit ziet, hoe het werkt en wat je er mee kan. -->
 
