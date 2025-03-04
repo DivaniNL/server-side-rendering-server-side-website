@@ -60,7 +60,7 @@ app.get('/', async function (request, response) {
 // Als je linkt naar station/1 (veronica bvb)
 app.get('/station/:id', async function (request, response) {
 
-  // Zoek de naam op van het station op basis van het ID
+  // Zoek de naam op van het station op basis van het ID. Dit loopt eigenlijk door alle stations ids totdat deze het zelfde is als het achtervoegsel van de link. Daarna returnt hij dat object van de array
   let stationArr = radiostations.find(function(stationName) {
     return stationName.id == request.params.id;
   });
