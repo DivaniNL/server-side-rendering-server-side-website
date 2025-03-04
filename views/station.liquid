@@ -1,0 +1,10 @@
+<h2>Dit is {{ stationNameGenerated }}</h2>
+{% for showforStation in showsforStation %}
+
+    <div class="show">
+        <h2>{{ showforStation.name }}</h2>
+        <p>{{ showforStation.body }}</p>
+        <hr>
+    </div>
+    
+{% endfor %}
