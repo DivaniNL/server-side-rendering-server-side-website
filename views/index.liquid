@@ -1,25 +1,18 @@
-{% comment %} 
-{
-      id: 1,
-      sort: 2,
-      color: '#3399FF',
-      name: 'Radio Veronica',
-      status: 'published',
-      date_updated: '2024-11-19T12:21:08.571Z',
-      date_created: '2024-10-04T13:00:21.843Z',
-      logo: 'd781b4ef-391a-4dac-893b-7ae2e1d70f43',
-      user_updated: '73ac9577-6d00-4fb2-ab53-5313fe572d09',
-      user_created: '9fe8d564-9cca-4ebc-9eb5-fba3217963b2'
-}, {% endcomment %}
+{% render 'partials/head.liquid' title: "Mediahuis" %}
+{% render 'partials/header.liquid' v: "h" title: "Mediahuis" %}{% comment %} Version : Home {% endcomment %}
 
+<main>
+    <div class="wrapper-container">
 
-{% for radiostation in radiostations %}
+        {% for radiostation in radiostations %}
 
-    <div class="radiostation">
-        <a href="/station/{{radiostation.id}}">
-            <h2>{{ radiostation.name }}</h2>
-            <img src="https://fdnd-agency.directus.app/assets/{{radiostation.logo}}" alt="">
-        </a>
+            <div class="one-radiostation">
+                <a href="/station/{{radiostation.id}}">
+                    <img src="https://fdnd-agency.directus.app/assets/{{radiostation.logo}}" alt="Logo van {{radiostation.name }}">
+                </a>
+            </div>
+            
+        {% endfor %}
+
     </div>
-    
-{% endfor %}
+</main>
