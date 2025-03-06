@@ -124,15 +124,28 @@ app.get('/station/:id', async function (request, response) {
     return stationName.id == request.params.id;
   });
 
-  const ShowsforStationUL = "https://fdnd-agency.directus.app/items/mh_show";
-  const showsforStationFilterPart = "?filter={\"radiostation\":\"" + request.params.id + "\"}";
+  const ShowsforStationUL = "https://fdnd-agency.directus.app/items/mh_shows?fields=*.*.*.*";
+  const showsforStationFilterPart = "&filter={\"show\":{\"radiostation\":\"" + request.params.id + "\"}}";
+
 
   const showsforStation = await fetch(ShowsforStationUL + showsforStationFilterPart);
   const showsforStationJSON = await showsforStation.json();
+  const nestedShows = [];
+  showsforStationJSON.data.forEach(function(show) {
+    nestedShows.push(show.show);
+  });
 
-  console.log("Fetched shows for station:", showsforStationJSON.data);
+  showsforStationJSON.data.forEach(function(show) {
+    console.log(show);
+    nestedShows.push({
+      show: show.show,
 
-  console.log("thisWeekshows before processing:", thisWeekshows);
+    });
+  });
+
+
+  console.log("nestedShows");
+  console.log(nestedShows);
 
   const updatedWeekShowsforStation = thisWeekshows.map(day => {
     const updatedShows = day.shows
@@ -140,15 +153,14 @@ app.get('/station/:id', async function (request, response) {
       .map(show => {
         
         console.log("Processing show ID: " + show);
-        const showObj = showsforStationJSON.data.find(s => s.id == show);
+        
+        const showObj = nestedShows.find(s => s.id == show);
         return showObj;
       })
       .filter(show => show !== undefined && show !== null);// Hiermee map je als het door de array heen, en filter je de nulls eruit.
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
     return { ...day, shows: updatedShows };
   });
-
-  console.log("Updated week shows for station:", updatedWeekShowsforStation);
 
   response.render('station.liquid', {
     showsforStation: showsforStationJSON.data,

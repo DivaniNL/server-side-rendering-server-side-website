@@ -1,15 +1,3 @@
-<h2>Dit is {{ stationNameGenerated.name }}</h2>
-{% for showforStation in showsforStation %}
-
-    <div class="show">
-        <h2>{{ showforStation.name }}</h2>
-        <p>{{ showforStation.body }}</p>
-        <hr>
-    </div>
-    
-{% endfor %}
-
-
 <pre>{{ thisWeekShows | json | replace: ',', ',\n' | replace: '{', '{\n' | replace: '[', '[\n' }}</pre>
 
 {% render 'partials/head.liquid' title: "Mediahuis" %}
