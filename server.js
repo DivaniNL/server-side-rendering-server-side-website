@@ -120,9 +120,10 @@ app.get('/', async function (request, response) {
 
 // Als je linkt naar station/1 (veronica bvb)
 app.get('/station/:id', async function (request, response) {
-  const stationArr = radiostations.find(function(stationName) {
+  let stationArr = radiostations.find(function(stationName) {
     return stationName.id == request.params.id;
   });
+  stationArr = stationArr.name;
 
   const ShowsforStationUL = "https://fdnd-agency.directus.app/items/mh_shows?fields=*.*.*.*";
   const showsforStationFilterPart = "&filter={\"show\":{\"radiostation\":\"" + request.params.id + "\"}}&limit=-1";
@@ -179,7 +180,9 @@ app.get('/station/:id', async function (request, response) {
     showsforStation: showsforStationJSON.data,
     stationNameGenerated: stationArr,
     thisWeek: thisWeek,
-    thisWeekShows: updatedWeekShowsforStation
+    thisWeekShows: updatedWeekShowsforStation,
+    radiostations: radiostationsResponseJSON.data,
+    thisstation: parseInt(request.params.id)
   });
 });
 
