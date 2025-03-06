@@ -1,5 +1,14 @@
-<pre>{{ thisWeekShows | json | replace: ',', ',\n' | replace: '{', '{\n' | replace: '[', '[\n' }}</pre>
 
+{% for today in thisWeekShows %}
+
+    vandaag is het {{ today.dayName }} en de shows zijn:
+    {% for show in today.shows %}
+        <p>{{ show.name }}</p>
+        start om {{ show.from }} en eindigt om {{ show.until }}
+    {% endfor %}
+
+{% endfor %}
+<hr>
 {% render 'partials/head.liquid' title: "Mediahuis" %}
 {% render 'partials/header.liquid' v: "o" title: "Mediahuis" %}{% comment %} Version : Other {% endcomment %}
 

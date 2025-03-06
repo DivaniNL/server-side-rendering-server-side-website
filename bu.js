@@ -4,7 +4,7 @@ import express from 'express'
 
 // Importeer de Liquid package (ook als dependency via npm geïnstalleerd)
 import { Liquid } from 'liquidjs';
-import fs from 'fs';
+
 
 console.log('Test')
 
@@ -40,7 +40,7 @@ const radiostations = radiostationsResponseJSON.data.map(station => ({
 
 const thisWeekshows = [];
 
-const daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show&limit=-1');
+const daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show');
 const daysResponseJSON = await daysResponse.json();
 const dayNames = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
 daysResponseJSON.data.forEach(day => {
@@ -125,54 +125,34 @@ app.get('/station/:id', async function (request, response) {
   });
 
   const ShowsforStationUL = "https://fdnd-agency.directus.app/items/mh_shows?fields=*.*.*.*";
-  const showsforStationFilterPart = "&filter={\"show\":{\"radiostation\":\"" + request.params.id + "\"}}&limit=-1";
+  const showsforStationFilterPart = "&filter={\"show\":{\"radiostation\":\"" + request.params.id + "\"}}";
 
 
   const showsforStation = await fetch(ShowsforStationUL + showsforStationFilterPart);
   const showsforStationJSON = await showsforStation.json();
   const nestedShows = [];
-
   showsforStationJSON.data.forEach(function(show) {
-  
-    nestedShows.push({
-      ...show.show,
-      from: show.from,
-      until: show.until,
-    });
+    nestedShows.push(show.show);
   });
 
 
-
+  
+  console.log("nestedShows");
   console.log(nestedShows);
-  console.log("dit waren alle shows gesoorteerd op dag");
+
   const updatedWeekShowsforStation = thisWeekshows.map(day => {
     const updatedShows = day.shows
       .filter(show => show !== undefined && show !== null) // Filter out null values before mapping
       .map(show => {
         
-        // console.log("Processing show ID: " + show);
-        console.log(show);
-        let dayShowID = show;
-        const showObj = nestedShows.find(s => s.id == dayShowID);
+        console.log("Processing show ID: " + show);
+        
+        const showObj = nestedShows.find(s => s.id == show);
         return showObj;
       })
       .filter(show => show !== undefined && show !== null);// Hiermee map je als het door de array heen, en filter je de nulls eruit.
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
     return { ...day, shows: updatedShows };
-  });
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
-// Het feit dat ik een updated array moest maken met de spread operator heb ik van Chat. Ik snap wel dat het de day object pakt en de shows array updated met de juiste shows, maar had dit niet zelf bedacht. Ik snap nog niet helemaal hoe het werkt.
-
-
-  // console.log("Updated week shows for station:", updatedWeekShowsforStation[1]);
-
-  // Write the updatedWeekShowsforStation data to test.json
-  fs.writeFile('test.json', JSON.stringify(updatedWeekShowsforStation, null, 2), (err) => {
-    if (err) {
-      console.error('Error writing to test.json:', err);
-    } else {
-      console.log('Successfully wrote to test.json');
-    }
   });
 
   response.render('station.liquid', {
@@ -182,6 +162,8 @@ app.get('/station/:id', async function (request, response) {
     thisWeekShows: updatedWeekShowsforStation
   });
 });
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+// Het feit dat ik een updated array moest maken met de spread operator heb ik van Chat. Ik snap wel dat het de day object pakt en de shows array updated met de juiste shows, maar had dit niet zelf bedacht. Ik snap nog niet helemaal hoe het werkt.
 
 
 // Maak een POST route voor de index; hiermee kun je bijvoorbeeld formulieren afvangen
