@@ -1,33 +1,15 @@
 {% render 'partials/head.liquid' title: "Mediahuis" style: thisstation %}
 {% render 'partials/header.liquid' v: "o" title: "Mediahuis" %}{% comment %} Version : Other {% endcomment %}
-welkom bij {{stationNameGenerated}}
-
 <hr>
-<div class="wrapper-container">
-    <aside class="desktop-show">
-        {% comment %} DEZE OPENEN MET HAMBURGER MENU??? {% endcomment %}
-        <input type="radio" id="Live" name="toggle" checked>
-        <label for="Live">Live</label>
-
-        <input type="radio" id="Stations" name="toggle">
-        <label for="Stations">Stations</label>
-        <div class="aside-live" data-sidebar-section="live">
-
-        </div>
-        <div class="aside-stations" data-sidebar-section="stations">
-            <div class="wrapper-container">
-                <p class="text-l">Bekijk andere radiostations</p>
-                {% for radiostation in radiostations %}
-                    {% if radiostation.id != thisstation %}
-                        <div class="one-radiostation">
-                            <a href="/station/{{radiostation.id}}">
-                                <img src="https://fdnd-agency.directus.app/assets/{{radiostation.logo}}" alt="Logo van {{radiostation.name }}">
-                            </a>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-    </aside>
+<div class="main-wrapper-container">
+    {% render 'partials/aside.liquid' 
+    showsforStation: showsforStation,
+    stationNameGenerated: stationNameGenerated,
+    thisWeek: thisWeek,
+    thisWeekShows: thisWeekShows,
+    radiostations: radiostations,
+    thisstation: thisstation
+    %}
     <main>
         <div class="part-sticky top-wrapper">
             <nav class="sticky-menu sticky-menu-top">
@@ -154,7 +136,7 @@ welkom bij {{stationNameGenerated}}
             </div>
 
         </div>
-        <footer>test</footer>
+        {%  render 'partials/foot.liquid' stationID: thisstation, stationName: stationNameGenerated %}
     </main>
 
 </div>
