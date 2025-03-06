@@ -1,4 +1,4 @@
-<h2>Dit is {{ stationNameGenerated }}</h2>
+<h2>Dit is {{ stationNameGenerated.name }}</h2>
 {% for showforStation in showsforStation %}
 
     <div class="show">
@@ -8,3 +8,121 @@
     </div>
     
 {% endfor %}
+
+
+<pre>{{ thisWeekShows | json | replace: ',', ',\n' | replace: '{', '{\n' | replace: '[', '[\n' }}</pre>
+
+{% render 'partials/head.liquid' title: "Mediahuis" %}
+{% render 'partials/header.liquid' v: "o" title: "Mediahuis" %}{% comment %} Version : Other {% endcomment %}
+
+<main>
+    <aside class="desktop-show">
+        {% comment %} DEZE OPENEN MET HAMBURGER MENU??? {% endcomment %}
+
+    </aside>
+    <section>
+        <div class="part-sticky top-wrapper">
+            <nav class="sticky-menu sticky-menu-top">
+                <ul>
+                    <li><a href="#">Programmering</a></li>
+                    <li><a href="#">DJ's</a></li>
+                    <li><a href="#">Playlist</a></li>
+                    <li><a href="#">Frequenties</a></li>
+                </ul>
+            </nav>
+            <nav class="sticky-menu sticky-menu-bottom day-menu">            
+                <ul>
+                    <li>   
+                        <a href="/station/{{stationNameGenerated.id}}/day/Monday">Ma
+                            <b>
+                                {{thisWeek[0].day}}
+                            </b>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/station/{{stationNameGenerated.id}}/day/Tuesday">Din
+                            <b>
+                                {{thisWeek[1].day}}
+                            </b>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/station/{{stationNameGenerated.id}}/day/Wednesday">Woe
+                            <b>
+                                {{thisWeek[2].day}}
+                            </b>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/station/{{stationNameGenerated.id}}/day/Thursday">Don
+                            <b>
+                                {{thisWeek[3].day}}
+                            </b>
+                        </a>        
+                    </li>
+                    <li>
+                        <a href="/station/{{stationNameGenerated.id}}/day/Friday">Vrij
+                            <b>
+                                {{thisWeek[4].day}}
+                            </b>
+                        </a>        
+                    </li>
+                    <li>
+                        <a href="/station/{{stationNameGenerated.id}}/day/Saturday">Zat
+                            <b>
+                                {{thisWeek[5].day}}
+                            </b>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/station/{{stationNameGenerated.id}}/day/Sunday">Zon
+                            <b>
+                                {{thisWeek[6].day}}
+                            </b>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/station/{{stationNameGenerated.id}}/day/Monday">Ma
+                            <b>
+                                {{thisWeek[7].day}}
+                            </b>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="overview-shows">
+
+            <div class="timeline-wrapper">
+                <div class="current-time"> 
+                {% comment %} Rode balk op huidige tijd
+                 
+                ik zat te denken aan een calc met huidige tijd (huidige minuut na 00:00 / aantal minuten in een dag * 100%) en die in een css variabele zetten inline
+                en dan absolute stylen met left: calc(var(--current-time) * 100%)
+                
+                {% endcomment %}
+            
+                </div>
+                <div class="timeline">
+                    {% for i in (1..24) %} {% comment %} 24 hours {% endcomment %}
+                        {% comment %} Add trailing zeroes {% endcomment %}
+                        {% if i == 99 %} {% comment %} Current time {% endcomment %}
+                          {% continue %}
+                        {% else %}
+                            <div class="hour">
+                                <span>{{ i }}:00</span>
+                            </div>
+                            <div class="dots"></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+
+{% comment %} https://shopify.github.io/liquid/tags/iteration/#continue {% endcomment %}
+
+

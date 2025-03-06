@@ -6,16 +6,16 @@
         {% else %}
     
     {% endcase %} 
-    <input id="menu-toggle" class="hamburger" role="checkbox" type="checkbox"/>
+    <input id="aside-toggle" class="hamburger" role="checkbox" type="checkbox"/>
 
-    <label for="menu-toggle">
-        <svg id="menu-closed" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+    <label for="aside-toggle">
+        <svg id="aside-closed" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
             <rect width="36" height="36" fill="white" />
             <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M9.75 10.5C9.75 10.0858 10.0858 9.75 10.5 9.75H25.5C25.9142 9.75 26.25 10.0858 26.25 10.5C26.25 10.9142 25.9142 11.25 25.5 11.25H10.5C10.0858 11.25 9.75 10.9142 9.75 10.5ZM9.75 18C9.75 17.5858 10.0858 17.25 10.5 17.25H25.5C25.9142 17.25 26.25 17.5858 26.25 18C26.25 18.4142 25.9142 18.75 25.5 18.75H10.5C10.0858 18.75 9.75 18.4142 9.75 18ZM9.75 25.5C9.75 25.0858 10.0858 24.75 10.5 24.75H25.5C25.9142 24.75 26.25 25.0858 26.25 25.5C26.25 25.9142 25.9142 26.25 25.5 26.25H10.5C10.0858 26.25 9.75 25.9142 9.75 25.5Z"
                 fill="black" />
         </svg>
-        <svg id="menu-opened" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <svg id="aside-opened" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
             <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M9.96967 26.0303C9.67678 25.7374 9.67678 25.2626 9.96967 24.9697L24.9697 9.96967C25.2626 9.67678 25.7374 9.67678 26.0303 9.96967C26.3232 10.2626 26.3232 10.7374 26.0303 11.0303L11.0303 26.0303C10.7374 26.3232 10.2626 26.3232 9.96967 26.0303Z"
                 fill="black"></path>
@@ -47,7 +47,7 @@
 
         <ul class="primary-nav">
             {% comment %} home + radio + ontdek {% endcomment %}
-            <li><a href="/">Home</a></li>
+            <li><a href="/" class="link-active">Home</a></li>
             <li><a href="#radio">Radio</a></li>
             <li><a href="#ontdek">Ontdek</a></li>
         </ul>
