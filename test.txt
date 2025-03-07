@@ -1,0 +1,1 @@
+https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show.users.*.*
