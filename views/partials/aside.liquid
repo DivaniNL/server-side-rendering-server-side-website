@@ -1,24 +1,29 @@
-<aside class="desktop-show">
-{% comment %} DEZE OPENEN MET HAMBURGER MENU??? {% endcomment %}
-<input tabindex="0" aria-hidden="true" type="radio" id="Live" name="toggle" checked>
-<label aria-hidden="true" for="Live">Live</label>
+<aside class="desktop-show" id="aside-sidebar">
 
-<input tabindex="0" aria-hidden="true" type="radio" id="Stations" name="toggle">
-<label aria-hidden="true" for="Stations">Stations</label>
-<div class="aside-live" data-sidebar-section="live">
+    <div class="aside-inner">
+        {% comment %} DEZE OPENEN MET HAMBURGER MENU??? {% endcomment %}
+        <input tabindex="0" aria-hidden="true" type="radio" id="Live" name="toggle" checked>
+        <label aria-hidden="true" for="Live">Live</label>
 
-</div>
-<div class="aside-stations" data-sidebar-section="stations">
-    <div class="wrapper-container">
-        <p class="text-l">Bekijk andere radiostations</p>
-        {% for radiostation in radiostations %}
-            {% if radiostation.id != thisstation %}
-                <div class="one-radiostation">
-                    <a tabindex="0" aria-hidden="true" href="/station/{{radiostation.id}}">
-                        <img src="https://fdnd-agency.directus.app/assets/{{radiostation.logo}}" alt="Logo van {{radiostation.name }}">
-                    </a>
-                </div>
-            {% endif %}
-        {% endfor %}
+        <input tabindex="0" aria-hidden="true" type="radio" id="Stations" name="toggle">
+        <label aria-hidden="true" for="Stations">Stations</label>
+        <div class="aside-live" data-sidebar-section="live">
+
+        </div>
+        <div class="aside-stations" data-sidebar-section="stations">
+            <div class="wrapper-container">
+                <p class="text-l">Bekijk andere radiostations</p>
+                {% for radiostation in radiostations %}
+                    {% if radiostation.id != thisstation %}
+                        <div class="one-radiostation">
+                            <a tabindex="0" aria-hidden="true" href="/station/{{radiostation.id}}">
+                                <img src="https://fdnd-agency.directus.app/assets/{{radiostation.logo}}" alt="Logo van {{radiostation.name }}">
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
+
 </aside>

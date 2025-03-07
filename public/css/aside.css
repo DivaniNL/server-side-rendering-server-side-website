@@ -1,9 +1,0 @@
-aside{
-    position: absolute;
-    right: 100%;
-    transition: 1s ease;
-    &.toggle-on{
-        right: 0;
-        position: relative;
-    }
-}
