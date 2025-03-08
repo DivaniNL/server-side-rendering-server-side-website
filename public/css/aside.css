@@ -1,0 +1,40 @@
+#aside-closed{
+    display: block;
+}
+#aside-opened{
+    display: none;
+}
+body:has(#aside-toggler:target){
+    #aside-closed{
+      display: none;
+    }
+    #aside-opened{
+      display: block;
+    }
+    .main-wrapper-container{
+        grid-template-columns: 300px 1fr;
+        aside{
+            .aside-inner{
+                opacity: 1;
+            }
+            input, a{
+                visibility: visible;
+            }
+        }
+      
+    }
+}
+
+aside{
+    grid-column: 1/1;
+    position: relative;
+    overflow: hidden;
+    .aside-inner{
+      width: 300px;
+      opacity: 0;
+      transition: 1s ease-out opacity;
+    }
+    input, a{
+      visibility: hidden;
+    }
+}

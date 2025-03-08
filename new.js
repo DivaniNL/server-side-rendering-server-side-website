@@ -40,7 +40,7 @@ const radiostations = radiostationsResponseJSON.data.map(station => ({
 
 const thisWeekshows = [];
 
-const daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show&limit=-1');
+const daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show.*&limit=-1');
 const daysResponseJSON = await daysResponse.json();
 const dayNames = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
 daysResponseJSON.data.forEach(day => {
@@ -125,7 +125,7 @@ app.get('/station/:id', async function (request, response) {
   });
 
   const ShowsforStationUL = "https://fdnd-agency.directus.app/items/mh_shows?fields=*.*.*.*";
-  const showsforStationFilterPart = "&filter={\"show\":{\"radiostation\":\"" + request.params.id + "\"}}&limit=-1";
+  const showsforStationFilterPart = "&filter={\"show\":{\"radiostation\":\"" + request.params.id + "\"}}&limit=-1&sort=from";
 
 
   const showsforStation = await fetch(ShowsforStationUL + showsforStationFilterPart);

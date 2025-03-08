@@ -1,0 +1,70 @@
+main.home{
+
+    .main-wrapper-container{
+        padding: 35px 24px 0 24px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .one-radiostation{
+
+            a{
+                padding: 10px 0;
+                border-radius: 8px;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 60px;
+                img{
+                    max-width: 140px;
+                    max-height: 40px;
+                }
+            }
+            &.block-radio-1{
+                a{
+                    background-color: #33B6E8; /* Veronica */
+                }
+            }
+            &.block-radio-2{
+                a{
+                    background-image: linear-gradient(175deg, #e50069 50%, #33B6E8 50%); /* SLAM! */
+                }
+            }
+            &.block-radio-3{
+                a{
+                    background-color: #E87E08; /* 100% NL */
+                }
+            }
+            &.block-radio-4{
+                a{
+                    background-color: #294843; /* Sublime */
+                }
+            }
+            &.block-radio-5{
+                a{
+                    background-image: linear-gradient(175deg, #941480, #E8A44E 50%, #FCC742 62%); /* Sunlite */
+                }
+            }
+            &.block-radio-6{
+                a{
+                    background-color: #22282E; /* Radio 2 */
+                }
+            }
+        }
+        @media (min-width: 680px){
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            .text-xl{
+                grid-column: 1/-1;
+            }
+            .one-radiostation{
+                height: 130px;
+            }
+        }
+    }
+    & + .tabbar{
+        background-image: linear-gradient(90deg,var(--color-primary),var(--color-secondary) 50%,var(--color-tertiary));
+    }
+}

@@ -1,6 +1,18 @@
-{% render 'partials/head.liquid' title: "Mediahuis" style: thisstation %}
-{% render 'partials/header.liquid' v: "o" title: "Mediahuis" %}{% comment %} Version : Other {% endcomment %}
-<hr>
+{% render 'partials/head.liquid' title: "Mediahuis" style: thisstation  v: "o" %}
+{% render 'partials/header.liquid' v: "o" thisstation: thisstation title: "Mediahuis" %}{% comment %} Version : Other {% endcomment %}
+
+{% comment %} Start of Caht GPT Code [Calc percentage of minutes pased] {% endcomment %}
+{% assign curTime = "now" | date: "%H:%M" %}
+
+{% assign curHours = curTime | split: ":" | first %}
+{% assign curMinutes = curTime | split: ":" | last %}
+
+{% assign curTimeInMinutes = curHours | times: 60 | plus: curMinutes %}
+{% assign totalMinutesInDay = 1440 %}
+
+{% assign percentageGone = curTimeInMinutes | divided_by: totalMinutesInDay | times: 100 %}
+{% comment %} End of Chat GPT Code {% endcomment %}
+
 <div class="main-wrapper-container">
     {% render 'partials/aside.liquid' 
     showsforStation: showsforStation,
@@ -10,7 +22,7 @@
     radiostations: radiostations,
     thisstation: thisstation
     %}
-    <main>
+    <main class="radio-station">
         <div class="part-sticky top-wrapper">
             <nav class="sticky-menu sticky-menu-top">
                 <ul>
@@ -22,87 +34,49 @@
             </nav>
             <nav class="sticky-menu sticky-menu-bottom day-menu">            
                 <ul>
-                    <li>   
-                        <a href="/station/{{stationNameGenerated.id}}/day/Monday">Ma
-                            <b>
-                                {{thisWeek[0].day}}
-                            </b>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/station/{{stationNameGenerated.id}}/day/Tuesday">Din
-                            <b>
-                                {{thisWeek[1].day}}
-                            </b>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/station/{{stationNameGenerated.id}}/day/Wednesday">Woe
-                            <b>
-                                {{thisWeek[2].day}}
-                            </b>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/station/{{stationNameGenerated.id}}/day/Thursday">Don
-                            <b>
-                                {{thisWeek[3].day}}
-                            </b>
-                        </a>        
-                    </li>
-                    <li>
-                        <a href="/station/{{stationNameGenerated.id}}/day/Friday">Vrij
-                            <b>
-                                {{thisWeek[4].day}}
-                            </b>
-                        </a>        
-                    </li>
-                    <li>
-                        <a href="/station/{{stationNameGenerated.id}}/day/Saturday">Zat
-                            <b>
-                                {{thisWeek[5].day}}
-                            </b>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/station/{{stationNameGenerated.id}}/day/Sunday">Zon
-                            <b>
-                                {{thisWeek[6].day}}
-                            </b>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/station/{{stationNameGenerated.id}}/day/Monday">Ma
-                            <b>
-                                {{thisWeek[7].day}}
-                            </b>
-                        </a>
-                    </li>
+                    {% for thisWeekday in thisWeek %}
+                        <li>   
+                            {% assign index = forloop.index0 %}   
+                            {% if index > 6 %}
+                                {% assign index = 0 %}
+                            {% endif %}
+                            <a href="/station/{{ thisstation }}/{{index}}"> 
+                                {{ dayNames[index] }}
+                                <b>{{ thisWeek[index].day }}</b>
+                            </a>
+                            
+
+                        </li>
+                    {% endfor %}
                 </ul>
             </nav>
         </div>
         <div class="overview-shows">
-            <h1>Programmering van {{stationNameGenerated}}</h1>
+            <h1 class="text-xl">Programmering van {{stationNameGenerated}}</h1>
             <div class="timeline-wrapper">
-                <div class="current-time"> 
+                <div class="current-time" style="top: calc({{ percentageGone }}%);">
                 {% comment %} Rode balk op huidige tijd
                  
                 ik zat te denken aan een calc met huidige tijd (huidige minuut na 00:00 / aantal minuten in een dag * 100%) en die in een css variabele zetten inline
                 en dan absolute stylen met left: calc(var(--current-time) * 100%)
                 
                 {% endcomment %}
-            
+
+
+                
                 </div>
                 <div class="timeline">
-                    {% for i in (1..24) %} {% comment %} 24 hours {% endcomment %}
-                        {% comment %} Add trailing zeroes {% endcomment %}
-                        {% if i == 99 %} {% comment %} Current time {% endcomment %}
-                          {% continue %}
+                    {% for i in (0..24) %} {% comment %} 24 hours {% endcomment %}
+                        {% if i == 24 %}
+                            <div class="hour hour-end">
+                                <span>00:00</span>
+                            </div>
                         {% else %}
                             <div class="hour">
                                 <span>{{ i }}:00</span>
+                                <div class="dots"></div>
                             </div>
-                            <div class="dots"></div>
+                            
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -111,18 +85,55 @@
                 {% comment %} offset moet het nummer van de dagnummer zijn {% endcomment %}
                 {% for todayshows in thisWeekShows offset:0 limit:1 %}
                     {% for oneshow in todayshows.shows %}
-                        <div class="card-show">
-                            <img src="https://fdnd-agency.directus.app/assets/{{oneshow.users[0].mh_users_id.cover}}" alt="Foto van {{oneshow.users[0].mh_users_id.full_name }}" class="deejay-image">
+                        {% comment %} Start of ChatGPT Code {% endcomment %}
+                        {% assign start_time = oneshow.from | strip | split: ":" %}
+                        {% assign end_time = oneshow.until | strip | split: ":" %}
+
+                        {% assign start_hours = start_time[0] | times: 60 %}
+                        {% assign start_minutes = start_time[1] | plus: start_hours %}
+                        {% assign end_hours = end_time[0] | times: 60 %}
+                        {% assign end_minutes = end_time[1] | plus: end_hours %}
+
+                        {% assign time_difference = end_minutes | minus: start_minutes %}
+                        {% assign hour_difference = end_time[0] | minus: start_time[0] %}
+                        {% comment %} End of ChatGPT Code {% endcomment %}
+                        {% comment %} https://shopify.dev/docs/api/liquid/objects/forloop {% endcomment %}
+                        
+                        {% if forloop.index == 1 %}
+                            {% assign firstoffset = start_time[0] | split: ":00" | first | times: 60 | divided_by: 1440 | times: 100 %}
+                            {% comment %} this and then / 1440 * 100 {% endcomment %}
+                            {% if firstoffset > 0 %}
+                                <div class="card-fill" style="min-height: {{firstoffset}}%; max-height: {{firstoffset}}%; margin-bottom: 10px;">
+                               
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        {% if hour_difference < 2 %}
+                            {% assign extra-class = "short-show" %}
+                        {% else %}
+                            {% assign extra-class = "long-show" %}
+                        {% endif %}
+                        {% if hour_difference < 2 %}
+                            {% assign extra-class = "short-show" %}
+                        {% else %}
+                            {% assign extra-class = "long-show" %}
+                        {% endif %} 
+                        <div class="card-show {{extra-class}}" data-hours="{{hour_difference}}" style="min-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); max-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); margin-bottom: 10px;">
+                            <figure>
+                                <img src="https://fdnd-agency.directus.app/assets/{{oneshow.users[0].mh_users_id.cover}}" alt="Foto van {{oneshow.users[0].mh_users_id.full_name }}" class="deejay-image">
+                            </figure>    
                             <div class="part-content">
                                 <h2 class="text-l">{{oneshow.name}}</h2>
-                                <p>{{oneshow.body}}</p>
-                                <p class="show-time">
+                                {% if hour_difference > 1 %}
+                                    <p class="body">{{oneshow.body}}</p>
+                                {% endif %}
+                                <p class="show-time part-ghost">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M1.33337 8.00001C1.33337 4.32668 4.32671 1.33334 8.00004 1.33334C11.6734 1.33334 14.6667 4.32668 14.6667 8.00001C14.6667 11.6733 11.6734 14.6667 8.00004 14.6667C4.32671 14.6667 1.33337 11.6733 1.33337 8.00001ZM2.66671 8.00001C2.66671 10.94 5.06004 13.3333 8.00004 13.3333C10.94 13.3333 13.3334 10.94 13.3334 8.00001C13.3334 5.06001 10.94 2.66668 8.00004 2.66668C5.06004 2.66668 2.66671 5.06001 2.66671 8.00001ZM7.33337 8.27334V4.00001H8.66671V7.72668L11.14 10.1933L10.1934 11.14L7.33337 8.27334Z" fill="#8B8B8B"/>
                                     </svg>
                                     <time datetime="{{oneshow.from}}">{{oneshow.from}}</time> - <time datetime="{{oneshow.until}}">{{oneshow.until}}</time>
                                 </p>
-                                <p class="show-deejay">
+                                <p class="show-deejay part-ghost">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M11.3333 5.33333C11.3333 7.17333 9.84 8.66667 8 8.66667C6.16 8.66667 4.66667 7.17333 4.66667 5.33333C4.66667 3.49333 6.16 2 8 2C9.84 2 11.3333 3.49333 11.3333 5.33333ZM10 5.33333C10 4.23333 9.1 3.33333 8 3.33333C6.9 3.33333 6 4.23333 6 5.33333C6 6.43333 6.9 7.33333 8 7.33333C9.1 7.33333 10 6.43333 10 5.33333ZM2 14.6667V10H14V14.6667H2ZM3.33333 11.3333V13.3333H12.6667V11.3333H3.33333Z" fill="#8B8B8B"/>
                                     </svg>

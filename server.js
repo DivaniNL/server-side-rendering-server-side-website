@@ -17,7 +17,7 @@ const showResponseJSON = await showResponse.json();
 const usersResponse = await fetch('https://fdnd-agency.directus.app/items/mh_users');
 const usersResponseJSON = await usersResponse.json();
 
-const radiostationsResponse = await fetch('https://fdnd-agency.directus.app/items/mh_radiostations');
+const radiostationsResponse = await fetch('https://fdnd-agency.directus.app/items/mh_radiostations?sort=id');
 const radiostationsResponseJSON = await radiostationsResponse.json();
 
 const chatsResponse = await fetch('https://fdnd-agency.directus.app/items/mh_chats');
@@ -37,63 +37,6 @@ const radiostations = radiostationsResponseJSON.data.map(station => ({
 
 // console.log(radiostations);
 
-
-const thisWeekshows = [];
-
-const daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show');
-const daysResponseJSON = await daysResponse.json();
-const dayNames = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
-daysResponseJSON.data.forEach(day => {
-  const genDate = new Date(day.date);
-  const dayofWeekJSON = genDate.getDay();
-  const shows = day.shows;
-  const showIDs = [];
-  shows.forEach(show => { 
-    const show_id = show.mh_shows_id.show;
-    showIDs.push(show_id);
-  });
-  thisWeekshows.push({
-    day: dayofWeekJSON,
-    dayName: dayNames[dayofWeekJSON],
-    shows: showIDs
-  });
-});
-// console.log(thisWeekshows);
-// console.log("dit waren alle shows gesoorteerd op dag");
-
-
-
-// DAGEN VAN DEZE WEEK voor sticky dates
-const thisWeek = [];
-
-// Chat GPT-3
-function getDatesOfCurrentWeek(refDate = new Date()) {
-  const startOfWeek = new Date(refDate);
-  const day = startOfWeek.getDay();
-  const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
-  startOfWeek.setDate(diff);
-  startOfWeek.setHours(0, 0, 0, 0);
-
-  const datesOfWeek = [];
-  for (let i = 0; i < 8; i++) { // Loop through 8 days to include next Monday
-    const date = new Date(startOfWeek);
-    date.setDate(startOfWeek.getDate() + i);
-    datesOfWeek.push(date);
-  }
-
-  return datesOfWeek;
-}
-
-const datesOfCurrentWeek = getDatesOfCurrentWeek();
-datesOfCurrentWeek.forEach(date => {
-  const dateString = date.toISOString().split('T')[0];
-  thisWeek.push({
-    day: dateString.split('-')[2],
-    dayOfWeek: date.getDay()
-  });
-});
-
-// End of Chat GPT code
 
 
 
@@ -118,8 +61,73 @@ app.get('/', async function (request, response) {
    response.render('index.liquid', {radiostations: radiostationsResponseJSON.data})
 })
 
-// Als je linkt naar station/1 (veronica bvb)
-app.get('/station/:id', async function (request, response) {
+// https://www.npmjs.com/package/path-to-regexp#optional - Optional parameters
+app.get('/station/:id{/:dayid}', async function (request, response) {
+
+
+  const thisWeekshows = [];
+  let daysResponse;
+  if(request.params.dayid == undefined){
+    daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show');
+  }
+  else{
+    daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show&filter={"sort":"'+ request.params.dayid +'"}');
+  }
+  const daysResponseJSON = await daysResponse.json();
+  const dayNames = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
+  daysResponseJSON.data.forEach(day => {
+    const genDate = new Date(day.date);
+    const dayofWeekJSON = genDate.getDay();
+    const shows = day.shows;
+    const showIDs = [];
+    shows.forEach(show => { 
+      const show_id = show.mh_shows_id.show;
+      showIDs.push(show_id);
+    });
+    thisWeekshows.push({
+      day: dayofWeekJSON,
+      dayName: dayNames[dayofWeekJSON],
+      shows: showIDs
+    });
+  });
+  // console.log(thisWeekshows);
+  // console.log("dit waren alle shows gesoorteerd op dag");
+  
+  
+  
+  // DAGEN VAN DEZE WEEK voor sticky dates
+  const thisWeek = [];
+  
+  // Chat GPT-3
+  function getDatesOfCurrentWeek(refDate = new Date()) {
+    const startOfWeek = new Date(refDate);
+    const day = startOfWeek.getDay();
+    const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+    startOfWeek.setDate(diff);
+    startOfWeek.setHours(0, 0, 0, 0);
+  
+    const datesOfWeek = [];
+    for (let i = 0; i < 8; i++) { // Loop through 8 days to include next Monday
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + i);
+      datesOfWeek.push(date);
+    }
+  
+    return datesOfWeek;
+  }
+  
+  const datesOfCurrentWeek = getDatesOfCurrentWeek();
+  datesOfCurrentWeek.forEach(date => {
+    const dateString = date.toISOString().split('T')[0];
+    thisWeek.push({
+      day: dateString.split('-')[2],
+      dayOfWeek: date.getDay()
+    });
+  });
+  
+  // End of Chat GPT code
+  
+
   let stationArr = radiostations.find(function(stationName) {
     return stationName.id == request.params.id;
   });
@@ -141,28 +149,25 @@ app.get('/station/:id', async function (request, response) {
       until: show.until,
     });
   });
+  nestedShows.sort((a, b) => new Date(a.from) - new Date(b.from));
 
-
-
-  console.log(nestedShows);
-  console.log("dit waren alle shows gesoorteerd op dag");
   const updatedWeekShowsforStation = thisWeekshows.map(day => {
     const updatedShows = day.shows
       .filter(show => show !== undefined && show !== null) // Filter out null values before mapping
       .map(show => {
         
         // console.log("Processing show ID: " + show);
-        console.log(show);
         let dayShowID = show;
         const showObj = nestedShows.find(s => s.id == dayShowID);
         return showObj;
       })
       .filter(show => show !== undefined && show !== null);// Hiermee map je als het door de array heen, en filter je de nulls eruit.
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+      updatedShows.sort((a, b) => a.from.localeCompare(b.from));
     return { ...day, shows: updatedShows };
   });
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
-// Het feit dat ik een updated array moest maken met de spread operator heb ik van Chat. Ik snap wel dat het de day object pakt en de shows array updated met de juiste shows, maar had dit niet zelf bedacht. Ik snap nog niet helemaal hoe het werkt.
+  // Het feit dat ik een updated array moest maken met de spread operator heb ik van Chat. Ik snap wel dat het de day object pakt en de shows array updated met de juiste shows, maar had dit niet zelf bedacht. Ik snap nog niet helemaal hoe het werkt.
 
 
   // console.log("Updated week shows for station:", updatedWeekShowsforStation[1]);
@@ -180,9 +185,12 @@ app.get('/station/:id', async function (request, response) {
     showsforStation: showsforStationJSON.data,
     stationNameGenerated: stationArr,
     thisWeek: thisWeek,
+    dayNames: dayNames,
     thisWeekShows: updatedWeekShowsforStation,
     radiostations: radiostationsResponseJSON.data,
-    thisstation: parseInt(request.params.id)
+    thisstation: parseInt(request.params.id),
+    today: parseInt(request.params.dayid),
+    todayName: dayNames[parseInt(request.params.dayid)]
   });
 });
 

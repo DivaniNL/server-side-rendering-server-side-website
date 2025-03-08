@@ -2,11 +2,11 @@
 
     <div class="aside-inner">
         {% comment %} DEZE OPENEN MET HAMBURGER MENU??? {% endcomment %}
-        <input tabindex="0" aria-hidden="true" type="radio" id="Live" name="toggle" checked>
-        <label aria-hidden="true" for="Live">Live</label>
+        <input type="radio" id="Live" name="toggle" checked>
+        <labelfor="Live">Live</label>
 
-        <input tabindex="0" aria-hidden="true" type="radio" id="Stations" name="toggle">
-        <label aria-hidden="true" for="Stations">Stations</label>
+        <input type="radio" id="Stations" name="toggle">
+        <label for="Stations">Stations</label>
         <div class="aside-live" data-sidebar-section="live">
 
         </div>
@@ -16,7 +16,7 @@
                 {% for radiostation in radiostations %}
                     {% if radiostation.id != thisstation %}
                         <div class="one-radiostation">
-                            <a tabindex="0" aria-hidden="true" href="/station/{{radiostation.id}}">
+                            <a href="/station/{{radiostation.id}}">
                                 <img src="https://fdnd-agency.directus.app/assets/{{radiostation.logo}}" alt="Logo van {{radiostation.name }}">
                             </a>
                         </div>

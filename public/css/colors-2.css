@@ -1,0 +1,11 @@
+body{
+    --color-primary: var(--color-black);
+    --color-secondary: #e50069;
+    --color-accent: var(--color-black);
+    --color-bg: #222222;
+    --color-timeline: #5D5D5D;
+    --color-text-header: #F5F5F5;
+    --color-text-main: var(--color-white);
+    --color-text-ghost: #8B8B8B;
+    --color-light: #5d5d5d;
+}

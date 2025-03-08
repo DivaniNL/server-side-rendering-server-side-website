@@ -1,11 +1,88 @@
+@font-face {
+  font-family: 'BrutalType';
+  src: url('/fonts/BrutalType-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BrutalType';
+  src: url('/fonts/BrutalType-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BrutalType';
+  src: url('/fonts/BrutalType-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BrutalType';
+  src: url('/fonts/BrutalType-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BrutalType';
+  src: url('/fonts/BrutalType-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BrutalType';
+  src: url('/fonts/BrutalType-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BrutalType';
+  src: url('/fonts/BrutalType-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BrutalType';
+  src: url('/fonts/BrutalType.ttf') format('truetype');
+  font-weight: 400; /* Regular */
+  font-style: normal;
+}
+html{
+  font-size: 16px;
+}
+/* Vars */
+
+body{
+  --font-family: 'BrutalType', sans-serif;
+  --text-xs: 0.625rem; /* 10px */
+  --text-s: 0.75rem; /* 12px */
+  --text-m: 1rem; /* 16px */
+  --text-l: 1.25rem; /* 20px */
+  --text-xl: 1.75rem; /* 28px */
+
+  --color-white: #fff;
+  --color-black: #000;
+
+  --one-day: 2000px; /* 1 day in px for the timetables. Increasing this will increase eaxch timeblock. */
+  font-family: var(--font-family);
+}
+
+/*  */
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  
-    &:hover {
-      cursor: pointer;
-    }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 .main-wrapper-container{
     display: grid;
@@ -21,58 +98,58 @@
       transition: 1s ease;
       grid-column: 2/-1;
     }
-    aside{
-      grid-column: 1/1;
-      position: relative;
-      overflow: hidden;
-      .aside-inner{
-        width: 300px;
-        opacity: 0;
-        transition: 1s ease-out opacity;
-      }
-    }
+
     
 }
-#aside-closed{
-  display: block;
-}
-#aside-opened{
-  display: none;
-}
-body:has(#aside-toggler:target){
-  #aside-closed{
-    display: none;
-  }
-  #aside-opened{
-    display: block;
-  }
-  .main-wrapper-container{
-    grid-template-columns: 300px 1fr;
-    aside{
-      .aside-inner{
-        opacity: 1;
-      }
-    }
-    
-  }
-}
+
 .desktop-hidden{
-  @media (min-width: 768px){
+  @media (min-width: 680px){
     display: none;
   }
 }
 .desktop-show{
-  @media (max-width: 768px){
+  @media (max-width: 680px){
     display: none;
   }
 }
 .mobile-hidden{
-  @media (max-width: 768px){
+  @media (max-width: 680px){
     display: none;
   }
 }
 .mobile-show{
-  @media (min-width: 768px){
+  @media (min-width: 680px){
     display: none;
   }
+}
+.text-xl{
+  font-size: var(--text-l);
+  @media (min-width: 680px){
+    font-size: var(--text-xl);
+  }
+  color: var(--color-text-header);
+}
+.text-l{
+  font-size: var(--text-l);
+  color: var(--color-text-header);
+}
+.text-m{
+  font-size: var(--text-m);
+}
+.text-s{
+  font-size: var(--text-s);
+}
+.text-xs{
+  font-size: var(--text-xs);
+}
+.part-ghost{
+  color: var(--color-text-ghost);
+  *{
+    color: var(--color-text-ghost);
+    fill: var(--color-text-ghost);
+  }
+}
+/* Scrollbar */
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
 }

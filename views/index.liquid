@@ -1,14 +1,15 @@
-{% render 'partials/head.liquid' title: "Mediahuis" %}
+{% render 'partials/head.liquid'  style: "mediahuis" title: "Mediahuis" %}
 {% render 'partials/header.liquid' v: "h" title: "Mediahuis" %}{% comment %} Version : Home {% endcomment %}
 
-<main>
+<main class="home">
     <div class="main-wrapper-container">
-        <h1>Radiostations</h1>
-        {% for radiostation in radiostations %}
-
-            <div class="one-radiostation">
+        <h1 class="text-xl">Radiostations</h1>
+        {% assign sorted_radiostations = radiostations | sort: radiostation.id %}
+        {% for radiostation in sorted_radiostations %}
+        
+            <div class="one-radiostation block-radio-{{radiostation.id}}">
                 <a href="/station/{{radiostation.id}}">
-                    <img src="https://fdnd-agency.directus.app/assets/{{radiostation.logo}}" alt="Logo van {{radiostation.name }}">
+                    <img src="/assets/radio-{{ radiostation.id }}.png" alt="Logo van {{radiostation.name }}">
                 </a>
             </div>
             
@@ -16,3 +17,4 @@
 
     </div>
 </main>
+{%  render 'partials/foot.liquid' stationID: thisstation, v: "h" stationName: stationNameGenerated %}
