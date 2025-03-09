@@ -7,7 +7,7 @@ main.home{
         flex-direction: column;
         gap: 10px;
         .one-radiostation{
-
+            position: relative;
             a{
                 padding: 10px 0;
                 border-radius: 8px;
@@ -22,6 +22,14 @@ main.home{
                     max-height: 40px;
                     transition: 0.2s ease-in;
                 }
+                img.tbd{
+                    width: 100%;
+                    position: absolute;
+                    height: 100%;
+                    object-fit: contain;
+                    max-height: 100%;
+                    max-width: 100%;
+                  }
                 &:hover, &:focus{
                     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.55);
                     img{

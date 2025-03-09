@@ -73,6 +73,9 @@ body{
   --one-day: 2000px; /* 1 day in px for the timetables. Increasing this will increase eaxch timeblock. */
   font-family: var(--font-family);
   overflow-x: hidden;
+  @media (min-width: 1200px){
+    --one-day: 7500px;
+  }
 }
 
 /*  */

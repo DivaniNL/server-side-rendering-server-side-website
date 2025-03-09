@@ -42,7 +42,12 @@
                             
                             {% assign dayIndex = index | plus: 1 | modulo: 7 %} <!-- Ensures values loop back after Sunday -->
                             
-                            <a href="/station/{{ thisstation }}/{{ index }}"> 
+                            <a 
+                            {% if dayIndex == today %}
+                              class="active"  
+                            {% endif %}
+                            
+                            href="/station/{{ thisstation }}/{{ dayIndex }}"> 
                                 {{ dayNames[dayIndex] }}
                                 <b>{{ thisWeek[index].day }}</b>
                             </a>
@@ -52,7 +57,7 @@
             </nav>
         </div>
         <div class="overview-shows">
-            <h1 class="text-xl">Programmering van {{stationNameGenerated}}</h1>
+            <h1 class="text-xl">Programmering van {{stationNameGenerated}}<br>{{todayName}} </h1>
             <div class="timeline-wrapper">
                 <div class="current-time" style="top: calc({{ percentageGone }}%);">
                 {% comment %} Rode balk op huidige tijd
@@ -70,6 +75,7 @@
                         {% if i == 24 %}
                             <div class="hour hour-end">
                                 <span>00:00</span>
+                                <div class="dots"></div>
                             </div>
                         {% else %}
                             <div class="hour">
@@ -118,7 +124,7 @@
                         {% else %}
                             {% assign extra-class = "long-show" %}
                         {% endif %} 
-                        <div class="card-show {{extra-class}}" data-hours="{{hour_difference}}" style="min-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); max-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); margin-bottom: 10px;">
+                        <div class="card-show {{extra-class}} card-show-{{ forloop.index }}" data-hours="{{hour_difference}}" style="min-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); max-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); margin-bottom: 10px;">
                             <figure>
                                 <img src="https://fdnd-agency.directus.app/assets/{{oneshow.users[0].mh_users_id.cover}}" alt="Foto van {{oneshow.users[0].mh_users_id.full_name }}" class="deejay-image">
                             </figure>    
@@ -142,6 +148,41 @@
 
                             </div>
                         </div>
+                        <style>
+                            @media (min-width: 1200px) {
+                                .current-time{
+                                    left: calc({{ percentageGone }}%) !important;
+                                    top: 50% !important;
+                                    translate: 0 -50%;
+                                }
+                                .current-time::after{
+                                    left: 50% !important;
+                                    position: absolute !important;
+                                    content: '' !important;
+                                    width: 1px !important;
+                                    background-color: var(--color-secondary) !important;
+                                    height: 260px !important;
+                                    top: 0 !important;
+                                    transform: translateX(-50%) !important;
+                                }
+                                .card-show-{{ forloop.index }} {
+                                    /* Apply the same dynamic Liquid values for height, now horizontally */
+                                    min-width: calc(({{ time_difference }} / 1440 * 100%) - 10px);
+                                    max-width: calc(({{ time_difference }} / 1440 * 100%) - 10px);
+                                    margin-bottom: 0 !important;
+                                    margin-right: 10px !important;
+                                    min-height: 0 !important;
+                                    max-height: initial !important;
+                                }
+                                .card-fill{
+                                    min-width: {{firstoffset}}% !important;
+                                    max-width: {{firstoffset}}% !important;
+                                    margin-left: 10px !important;
+                                    min-height: 0 !important;
+                                    max-height: initial !important;
+                                }
+                            }
+                        </style>
                     {% endfor %}
                 {% endfor %}
             </div>

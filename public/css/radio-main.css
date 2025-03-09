@@ -110,6 +110,12 @@ main.radio-station{
             grid-column: 1/-1;
             margin-bottom: 2rem;
             text-align: center;
+            @media (min-width: 1200px){
+                grid-row: 1 / 1;
+                position: sticky;
+                left: 0;
+                margin-right: auto;
+            }
         }
         .timeline-wrapper{
             z-index: 1;
@@ -120,6 +126,7 @@ main.radio-station{
                 height: 8px;
                 background-color: var(--color-secondary);
                 border-radius: 50%;
+                z-index: 2;
                 &:after{
                     left: 100%;
                     position: absolute;
@@ -145,18 +152,59 @@ main.radio-station{
                         width: 0px;
                         border-right: 2px dashed var(--color-light);
                         height: 64px;
+                        @media (min-width: 1200px){
+                            width: calc(100% - 60px);
+                            margin: 0 30px;
+                            height: min-content;
+                            border-top: 2px dashed var(--color-light);
+                            border-right: 0;
+                            position: absolute;
+                            top: 50%;
+                            left: 0;
+                            translate: 0 -50%;
+                        }
                     }
                     &.hour-end{
                         justify-content: start;
                         align-items: start;
                         gap: 0;
                         height: initial !important;
+                        @media (min-width: 1200px){
+                            min-width: initial;
+                        }
+                        .dots{
+                            display: none;
+                            @media (min-width: 1200px){
+                                display: block;
+                            }
+                        }
+                    }
+                    span{
+                        @media (min-width: 1200px){
+                            translate: -50% 0;
+                        }
+                    }
+                    @media (min-width: 1200px){
+                        height: auto;
+                        min-width: calc(1 / 24 * 100%);
+                        align-items: start;
+                        position: relative;
                     }
                 }
+                @media (min-width: 1200px){
+                    width: var(--one-day) !important;
+                    height: auto !important;
+                    display: flex;
+                }
+                
+            }
+            @media (min-width: 1200px){
+                grid-row: 2 / 2;
                 
             }
         }
         .show-wrapper{
+            
             z-index: 2;
             height: var(--one-day);
             display: flex;
@@ -181,6 +229,15 @@ main.radio-station{
                         object-fit: cover;
                         border-radius: 50%;
                         margin: 0 12px;
+                        @media (min-width: 1200px){
+                            max-width: 165px;
+                            max-height: 165px;
+                            min-width: 165px;
+                            min-height: 165px;
+                        }
+                    }
+                    @media (min-width: 1200px){
+                       border-right: 0;
                     }
                 }
 
@@ -199,13 +256,31 @@ main.radio-station{
                         font-size: clamp(10px, 3vw, 1rem);
                         grid-row: 2;
                         color: var(--color-card-txt);
+                        @media (min-width: 1200px){
+                            grid-row: 4;
+                        }
                     }
                     p.show-time, p.show-deejay{
                         font-size: clamp(10px, 3vw, 1rem);
                     }
+                    p.show-time{
+                        @media (min-width: 1200px){
+                            grid-row: 2;
+                        }
+                    }
+                    p.show-deejay{
+                        @media (min-width: 1200px){
+                            grid-row: 3;
+                        }
+                    }
                     svg{
                         height: clamp(10px, 3vw, 1rem);
                         width: clamp(10px, 3vw, 1rem);
+                    }
+                    @media (min-width: 1200px){
+                        grid-template-rows: min-content min-content min-content 1fr;
+                        padding: 0;
+                        gap: 8px;
                     }
                 }
                 &.short-show{
@@ -218,7 +293,30 @@ main.radio-station{
                         }
                     }
                 }
+                @media (min-width: 1200px){
+                    padding: 25px;
+                    align-items: start;
+                    gap: 24px;
+                }
             }
+            @media (min-width: 1200px){
+                grid-row: 3 / 3;
+                flex-direction: row;
+                width: var(--one-day);
+                padding-bottom: 50px;
+                height: auto;
+                .card-show{
+                    display: flex;
+                    flex-direction: column-reverse;
+                }
+            }
+        }
+        @media (min-width: 1200px){
+            grid-template-rows: auto auto 1fr;
+            padding: 0 2rem;
+            grid-template-columns: 1fr;
+            overflow-x: scroll;
+            gap: 24px;
         }
     }
 }

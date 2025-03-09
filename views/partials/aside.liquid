@@ -27,6 +27,9 @@
                         <div class="one-radiostation block-radio-{{radiostation.id}}">
                             <a href="/station/{{radiostation.id}}">
                                 <img src="/assets/radio-{{ radiostation.id }}.png" alt="Logo van {{radiostation.name }}">
+                                {% if radiostation.id > 3 %}
+                                    <img class="tbd" src="/assets/TBD.png" alt="Deze zender is nog niet beschikbaar">
+                                {% endif %}
                             </a>
                         </div>
                     {% endif %}

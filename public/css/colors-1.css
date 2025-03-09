@@ -14,3 +14,9 @@ body{
     --color-card-bg: #fff;
     --color-card-txt: #000;
 }
+/* Specific Veronica styles */
+header.header-o.radio-1{
+    background-image: url("https://www.radioveronica.nl/veronica/header.png");
+    background-position: 40% center;
+    background-size: 180%;
+}

@@ -176,7 +176,13 @@ app.get('/station/:id{/:dayid}', async function (request, response) {
       console.log('Successfully wrote to test.json');
     }
   });
-
+  let today;
+  if (request.params.dayid == undefined) {
+    today = parseInt(thisWeekshows[0].day);  // Parse the day from thisWeekshows
+  } else {
+    today = parseInt(request.params.dayid);  // Parse the dayid from the request params
+  }
+  
   response.render('station.liquid', {
     showsforStation: showsforStationJSON.data,
     stationNameGenerated: stationArr,
@@ -185,8 +191,8 @@ app.get('/station/:id{/:dayid}', async function (request, response) {
     thisWeekShows: updatedWeekShowsforStation,
     radiostations: radiostationsResponseJSON.data,
     thisstation: parseInt(request.params.id),
-    today: parseInt(request.params.dayid),
-    todayName: dayNames[parseInt(request.params.dayid)]
+    today: today,
+    todayName: dayNames[parseInt(today)]
   });
 });
 

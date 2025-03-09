@@ -1,18 +1,24 @@
-#aside-closed {
-  display: block;
+.open-aside {
+  display: none !important;
+  @media (min-width: 680px) {
+    display: block !important;
+  }
 }
 
-#aside-opened {
+.close-aside {
   display: none;
 }
 
 body:has(#aside-toggler:target) {
-  #aside-closed {
-    display: none;
+  .close-aside {
+    display: none !important;
+    @media (min-width: 680px) {
+      display: block !important
+    }
   }
 
-  #aside-opened {
-    display: block;
+  .open-aside {
+    display: none !important;
   }
 
   .main-wrapper-container {
@@ -32,6 +38,11 @@ body:has(#aside-toggler:target) {
       grid-template-columns: 312px 1fr;
     }
 
+  }
+  main.radio-station .overview-shows .timeline-wrapper{
+    @media (min-width: 1200px){
+      margin-right: 300px;
+    }
   }
 }
 
@@ -136,7 +147,7 @@ aside {
     }
     .aside-stations .wrapper-container {
       .one-radiostation {
-
+        position: relative;
         a {
           padding: 10px 0;
           border-radius: 8px;
@@ -150,6 +161,14 @@ aside {
             max-width: 140px;
             max-height: 40px;
             transition: 0.2s ease-in;
+          }
+          img.tbd{
+            width: 100%;
+            position: absolute;
+            height: 100%;
+            object-fit: contain;
+            max-height: 100%;
+            max-width: 100%;
           }
           &:hover, &:focus{
             box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.55);
