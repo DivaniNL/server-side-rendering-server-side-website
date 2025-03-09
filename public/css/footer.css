@@ -35,3 +35,106 @@
         }
     }
 }
+footer.mobile-hidden{
+    padding: 48px 2rem 2rem 2rem;
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    z-index: 9;
+    img{
+        max-width: 93px;
+    }
+    .footer-top{
+        display: flex;
+        margin-top: 24px;
+        margin-bottom: 2rem;
+        .footer-left, .footer-right{
+            flex: 1;
+        }
+        .footer-left{
+            .text-xxl{
+                max-width: 250px;
+                font-weight: 900;
+                margin-bottom: 24px;
+            }
+            .social-text{
+                line-height: 24px;
+            }
+            .links-socialmedia{
+                margin-top: .5rem;
+                display: flex;
+                gap: 1rem;
+                list-style: none;
+                a{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 30px;
+                    height: 30px;
+                    background-color: var(--color-secondary);
+                    border-radius: 50%;
+                    transition: 0.2s ease;
+                    svg, svg > *{
+                        fill: var(--color-white);
+                        transition: 0.2s ease;
+                    }
+                    &:hover, &:focus{
+                        background-color: var(--color-white);
+                        svg, svg > *{
+                            fill: var(--color-secondary);
+                        }
+                    }
+                }
+            }
+        }
+        .footer-right{
+            padding-left: 2rem;
+            display: flex;
+            margin-top: 24px;
+            .footer-right-left, .footer-right-right{
+                flex: 1;
+                nav{
+                    margin-top: 12px;
+                    ul{
+                        list-style: none;
+                        display: grid;
+                        gap: 8px;
+                        li{
+                            a{
+                                border-bottom: 1px solid transparent;
+                                padding: 2px 0;
+                                &:hover, &:focus{
+                                    border-color: var(--color-white);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .footer-bottom{
+        padding-top: 2rem;
+        border-top: 1px solid var(--color-secondary);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: var(--text-s);
+        nav{
+            margin-left: auto;
+            ul{
+                list-style: none;
+                gap: 1rem;
+                display: flex;
+                li{
+                    a{
+                        border-bottom: 1px solid transparent;
+                        padding: 2px 0;
+                        &:hover, &:focus{
+                            border-color: var(--color-white);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

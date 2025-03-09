@@ -65,12 +65,14 @@ body{
   --text-m: 1rem; /* 16px */
   --text-l: 1.25rem; /* 20px */
   --text-xl: 1.75rem; /* 28px */
+  --text-xxl: 2.25rem; /* 36px */
 
   --color-white: #fff;
   --color-black: #000;
 
   --one-day: 2000px; /* 1 day in px for the timetables. Increasing this will increase eaxch timeblock. */
   font-family: var(--font-family);
+  overflow-x: hidden;
 }
 
 /*  */
@@ -92,7 +94,6 @@ a{
     main{
       grid-column: 2 / 2;
       grid-row: 1 / 1;
-      transition: 1s ease;
     }
     footer{
       transition: 1s ease;
@@ -128,6 +129,12 @@ a{
     font-size: var(--text-xl);
   }
   color: var(--color-text-header);
+}
+.text-xxl{
+  font-size: var(--text-xl);
+  @media (min-width: 680px){
+    font-size: var(--text-xxl);
+  }
 }
 .text-l{
   font-size: var(--text-l);

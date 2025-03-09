@@ -1,4 +1,5 @@
 body{
+    /* SLAM! */
     --color-primary: var(--color-black);
     --color-secondary: #e50069;
     --color-accent: var(--color-black);
@@ -8,4 +9,6 @@ body{
     --color-text-main: var(--color-white);
     --color-text-ghost: #8B8B8B;
     --color-light: #5d5d5d;
+    --color-card-bg: #111;
+    --color-card-txt: #fff;
 }

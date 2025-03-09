@@ -40,16 +40,16 @@ desktop-hidden
         </ul>
     </nav>
 </div>
-{% if v != "h" %}
+{% if v == "o" %}
     <footer class="mobile-hidden">
+        <img src="/assets/radio-{{thisstation}}.png" alt="Logo van {{ thisstation }}">
+
         <div class="footer-top">
-            {% comment %} Logo wordt later dynamisch ingeladen door middel van radio numemr [0.png etc] {% endcomment %}
-            <img src="/pad/naar/afbeelding [NOG DOEN]" alt="logo van {{stationName}}">
             <div class="footer-left">
                 <p class="text-xxl">
-                    We. Love. Music.
+                    We. Love. Music
                 </p>
-                <p class="social-text">Volg ons social media</p>
+                <p class="social-text">volg ons social media</p>
                 <ul class="links-socialmedia">
                     <li class="link-socialmedia">
                         <a href="#" class="button button-soc" aria-label="Facebook">

@@ -1,9 +1,9 @@
 body{
-    /* Radio Veronica */
-    --color-primary: #0091FF;
-    --color-secondary: #FE0170;
-    --color-accent: #011564;
-    --color-bg: #FAFAFA;
+    /* 100% NL */
+    --color-primary: #000;
+    --color-secondary: #12a638;
+    --color-accent: #000;
+    --color-bg: #fafafa;
     --color-timeline: #5D5D5D;
     --color-text-header: #1e1e1e;
     --color-text-main: var(--color-black);

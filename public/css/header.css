@@ -1,7 +1,7 @@
 header{
     position: sticky;
     top: 0;
-    z-index: 5;
+    z-index: 10;
     &.header-h{
         background-image: linear-gradient(90deg,var(--color-primary),var(--color-secondary) 50%,var(--color-tertiary));
         display: flex;
@@ -49,18 +49,103 @@ header{
             translate: -50% -50%;
             width: 93px;
             top: 50%;
+            margin-left: 28px;
+            @media (min-width: 680px){
+                position: relative;
+                top: initial;
+                left: initial;
+                translate: none;
+            }
+            img{
+                width: 100%;
+            }
         }
-        button.button-whatsapp{
+        .button-whatsapp{
             height: 24px;
             appearance: none;
             background-color: transparent;
             border: 0;
+            transition: 0.2s ease;
             svg{
                 width: 24px;
                 height: 24px;
             }
             svg, svg > *{
                 fill: var(--color-white);
+                transition: 0.2s ease;
+            }
+            @media (min-width: 680px){
+                background-color: var(--color-secondary);
+                border-radius: 8px;
+                padding: 0.5rem 1rem;
+                text-transform: uppercase;
+                font-weight: 900;
+                color: var(--color-white);
+                appearance: none;
+                border: none;
+                display: flex;
+                gap: 8px;
+                height: 40px;
+                align-items: center;
+                justify-content: space-between;
+                span{
+                    font-size: 1rem;
+                }
+                &:hover, &:focus{
+                    background-color: var(--color-white);
+                    color: var(--color-secondary);
+                    svg > *{
+                        fill: var(--color-secondary);
+                    }
+                }
+            }
+        }
+        @media (min-width: 680px){
+            justify-content: start;
+            .search-icon{
+                margin-left: auto;
+                appearance: none;
+                border: 0;
+                background: transparent;
+                color: transparent;
+                position: relative;
+                width: 24px;
+                height: 24px;
+                margin-right: 24px;
+                font-size: 0;
+                svg{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 24px;
+                    height: 24px;
+                    > *{
+                        fill: var(--color-white);
+                    }
+                }
+            }
+            .primary-nav{
+                display: flex;
+                margin-left: 3rem;
+                gap: 2rem;
+                list-style: none;
+                li{
+                    a{
+                        color: var(--color-white);
+                        font-weight: 900;
+                        border-bottom: 1px solid transparent;
+                        padding: 0 0 7px 0;
+                        transition: 0.2s ease;
+                        &.active, &:hover, &:focus{
+                            border-color: var(--color-white);
+                        }
+                    }
+                }
+            }
+            .open-aside, .close-aside{
+                svg > *{
+                    fill: var(--color-white);
+                }
             }
         }
     }

@@ -1,40 +1,248 @@
-#aside-closed{
-    display: block;
-}
-#aside-opened{
-    display: none;
-}
-body:has(#aside-toggler:target){
-    #aside-closed{
-      display: none;
-    }
-    #aside-opened{
-      display: block;
-    }
-    .main-wrapper-container{
-        grid-template-columns: 300px 1fr;
-        aside{
-            .aside-inner{
-                opacity: 1;
-            }
-            input, a{
-                visibility: visible;
-            }
-        }
-      
-    }
+#aside-closed {
+  display: block;
 }
 
-aside{
-    grid-column: 1/1;
-    position: relative;
-    overflow: hidden;
-    .aside-inner{
-      width: 300px;
-      opacity: 0;
-      transition: 1s ease-out opacity;
+#aside-opened {
+  display: none;
+}
+
+body:has(#aside-toggler:target) {
+  #aside-closed {
+    display: none;
+  }
+
+  #aside-opened {
+    display: block;
+  }
+
+  .main-wrapper-container {
+    grid-template-columns: 1fr;
+
+    aside {
+      .aside-inner {
+        opacity: 1;
+      }
+
+      input,
+      a {
+        visibility: visible;
+      }
     }
-    input, a{
+    @media (min-width: 680px) {
+      grid-template-columns: 312px 1fr;
+    }
+
+  }
+}
+
+aside {
+  grid-column: 1/1;
+  position: relative;
+  overflow: clip;
+  z-index: 9;
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.16);
+  grid-row: 1 / -1;
+  background-color: var(--color-card-bg);
+  .aside-inner {
+    width: 100%;
+    padding: 0 11px;
+    opacity: 0;
+    transition: 1s ease-out opacity;
+    position: sticky;
+    top: 65px;
+
+
+    input,
+    a {
       visibility: hidden;
     }
+
+    .menu-top {
+      position: relative;
+      width: 100%;
+      display: flex;
+      list-style: none;
+      justify-content: start;
+      padding: 1rem 24px 0 24px;
+      overflow-x: auto;
+
+      input[type="radio"] {
+        /* display: none; */
+        width: 0;
+        height: 0;
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 1px;
+        background-color: var(--color-light);
+        z-index: -1;
+      }
+
+      label.menu-item {
+        display: block;
+        height: 2rem;
+        width: fit-content;
+        color: var(--color-text-ghost);
+        font-weight: 900;
+        text-transform: uppercase;
+        border-bottom: 1px solid transparent;
+        &:nth-last-of-type(1){
+          margin-left: 32px;
+        }
+      }
+
+      input[type="radio"]:focus+label {
+        color: var(--color-secondary);
+
+        border-bottom: 1px solid var(--color-secondary);
+      }
+      label:hover{
+        color: var(--color-secondary);
+        border-bottom: 1px solid var(--color-secondary);
+        cursor: pointer;
+      }
+
+
+    }
+    .aside-stations{
+      display: none;
+      margin-top: 1rem;
+    }
+    .aside-live{
+      margin-top: 1rem;
+      text-align: center;
+      display: grid;
+      gap: 1rem;
+      justify-content: center;
+      img{
+        display: flex;
+        width: -webkit-fill-available;
+      }
+      .text-xl{
+        font-weight: 900;
+        color: var(--color-card-txt);
+      }
+      .deejay-info{
+        color: var(--color-text-ghost);
+        svg > *{
+          fill: var(--color-text-ghost);
+        }
+      }
+    }
+    .aside-stations .wrapper-container {
+      .one-radiostation {
+
+        a {
+          padding: 10px 0;
+          border-radius: 8px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          transition: 0.2s ease-in;
+          img {
+            max-width: 140px;
+            max-height: 40px;
+            transition: 0.2s ease-in;
+          }
+          &:hover, &:focus{
+            box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.55);
+            img{
+              scale: 1.3;
+            }
+          }
+        }
+
+        &.block-radio-1 {
+          a {
+            background-color: #33B6E8;
+            /* Veronica */
+          }
+        }
+
+        &.block-radio-2 {
+          a {
+            background-image: linear-gradient(175deg, #e50069 50%, #33B6E8 50%);
+            /* SLAM! */
+          }
+        }
+
+        &.block-radio-3 {
+          a {
+            background-color: #E87E08;
+            /* 100% NL */
+          }
+        }
+
+        &.block-radio-4 {
+          a {
+            background-color: #294843;
+            /* Sublime */
+          }
+        }
+
+        &.block-radio-5 {
+          a {
+            background-image: linear-gradient(175deg, #941480, #E8A44E 50%, #FCC742 62%);
+            /* Sunlite */
+          }
+        }
+
+        &.block-radio-6 {
+          a {
+            background-color: #22282E;
+            /* Radio 2 */
+          }
+        }
+      }
+
+      @media (min-width: 680px) {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: 1fr;
+
+        .text-l {
+          grid-column: 1/-1;
+          margin-bottom: 13px;
+          font-weight: 900;
+          text-align: center;
+        }
+
+        .one-radiostation {
+          height: 100px;
+          max-height: 100px;
+        }
+      }
+    }
+    &:has(input#Stations:checked) {
+      .aside-stations {
+        display: block;
+      }
+      input#Stations + label {
+        color: var(--color-secondary);
+        border-bottom: 1px solid var(--color-secondary);
+      }
+      .aside-live{
+        display: none;
+      }
+    }
+    &:has(input#Live:checked) {
+      .aside-live {
+        display: grid;
+      }
+      .aside-stations{
+        display: none;
+      }
+      input#Live + label {
+        color: var(--color-secondary);
+        border-bottom: 1px solid var(--color-secondary);
+      }
+    }
+  }
 }

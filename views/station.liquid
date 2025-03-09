@@ -34,18 +34,18 @@
             </nav>
             <nav class="sticky-menu sticky-menu-bottom day-menu">            
                 <ul>
-                    {% for thisWeekday in thisWeek %}
+                    {% comment %} Modulo i found out because of chat {% endcomment %}
+                    {% for i in (0..7) %}
                         <li>   
                             {% assign index = forloop.index0 %}   
-                            {% if index > 6 %}
-                                {% assign index = 0 %}
-                            {% endif %}
-                            <a href="/station/{{ thisstation }}/{{index}}"> 
-                                {{ dayNames[index] }}
+                            {% assign index2 = forloop.index | plus: 2 %}
+                            
+                            {% assign dayIndex = index | plus: 1 | modulo: 7 %} <!-- Ensures values loop back after Sunday -->
+                            
+                            <a href="/station/{{ thisstation }}/{{ index }}"> 
+                                {{ dayNames[dayIndex] }}
                                 <b>{{ thisWeek[index].day }}</b>
                             </a>
-                            
-
                         </li>
                     {% endfor %}
                 </ul>
@@ -149,7 +149,7 @@
         </div>
 
     </main>
-    {%  render 'partials/foot.liquid' stationID: thisstation, stationName: stationNameGenerated %}
+    {%  render 'partials/foot.liquid' thisstation: thisstation, stationName: stationNameGenerated v: "o" %}
 </div>
 </body>
 </html>

@@ -93,23 +93,19 @@ app.get('/station/:id{/:dayid}', async function (request, response) {
   // console.log(thisWeekshows);
   // console.log("dit waren alle shows gesoorteerd op dag");
   
-  
-  
+  const now = new Date()
+  let startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() - 5)
   // DAGEN VAN DEZE WEEK voor sticky dates
   const thisWeek = [];
   
   // Chat GPT-3
   function getDatesOfCurrentWeek(refDate = new Date()) {
-    const startOfWeek = new Date(refDate);
-    const day = startOfWeek.getDay();
-    const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
-    startOfWeek.setDate(diff);
-    startOfWeek.setHours(0, 0, 0, 0);
   
     const datesOfWeek = [];
     for (let i = 0; i < 8; i++) { // Loop through 8 days to include next Monday
       const date = new Date(startOfWeek);
       date.setDate(startOfWeek.getDate() + i);
+      console.log(date);
       datesOfWeek.push(date);
     }
   
