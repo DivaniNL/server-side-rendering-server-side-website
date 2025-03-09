@@ -41,6 +41,7 @@ main.radio-station{
                     padding: 0 2rem;
                     overflow-x: auto;
                     gap: 32px;
+                    width: fit-content;
                     li{
                         height: 2rem;
                         display: flex;

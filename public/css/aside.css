@@ -219,6 +219,20 @@ aside {
             /* Radio 2 */
           }
         }
+        &.block-radio-mediahuis {
+          a {
+            --color-primary: #FF261F;
+            --color-secondary: #FF8A1799;
+            --color-tertiary: #BEBEBE;
+            background-image: linear-gradient(90deg,var(--color-primary),var(--color-secondary) 50%,var(--color-tertiary));
+            /* Mediahuis */
+            img{
+              background-color: white;
+              padding: 12px;
+              border-radius: 8px;
+            }
+          }
+        }
       }
 
       @media (min-width: 680px) {
