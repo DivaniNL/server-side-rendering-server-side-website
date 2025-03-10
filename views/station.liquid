@@ -2,8 +2,7 @@
 {% render 'partials/header.liquid' v: "o" thisstation: thisstation title: "Mediahuis" %}{% comment %} Version : Other {% endcomment %}
 
 {% comment %} Start of Caht GPT Code [Calc percentage of minutes pased] {% endcomment %}
-{% assign curTime = "now" | date: "%H:%M" %}
-
+{% assign curTime = "now" | date: "%H:%M", "Europe/Amsterdam"%}
 {% assign curHours = curTime | split: ":" | first %}
 {% assign curMinutes = curTime | split: ":" | last %}
 
