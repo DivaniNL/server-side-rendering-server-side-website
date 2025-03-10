@@ -62,19 +62,23 @@ app.get('/', async function (request, response) {
 })
 
 // https://www.npmjs.com/package/path-to-regexp#optional - Optional parameters
-app.get('/station/:id{/:dayid}', async function (request, response) {
+app.get('/:name{/programmering}{/:dayname}', async function (request, response) {
 
-
+  const dayNames = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
+  
   const thisWeekshows = [];
   let daysResponse;
-  if(request.params.dayid == undefined){
+  let dayID;
+  if(request.params.dayname == undefined){
     daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show');
   }
   else{
-    daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show&filter={"sort":"'+ request.params.dayid +'"}');
+    dayID = dayNames.findIndex(day => day === request.params.dayname);
+    console.log(dayID);
+    daysResponse = await fetch('https://fdnd-agency.directus.app/items/mh_day?fields=*,shows.mh_shows_id.show&filter={"sort":"'+ dayID +'"}');
   }
   const daysResponseJSON = await daysResponse.json();
-  const dayNames = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
+  
   daysResponseJSON.data.forEach(day => {
     const genDate = new Date(day.date);
     const dayofWeekJSON = genDate.getDay();
@@ -122,15 +126,15 @@ app.get('/station/:id{/:dayid}', async function (request, response) {
   });
   
   // End of Chat GPT code
-  
 
-  let stationArr = radiostations.find(function(stationName) {
-    return stationName.id == request.params.id;
-  });
-  stationArr = stationArr.name;
 
+
+
+  const stationArr = request.params.name;
+  const stationURL = radiostations.find(station => station.name === stationArr);
+  let stationID = stationURL.id;
   const ShowsforStationUL = "https://fdnd-agency.directus.app/items/mh_shows?fields=*.*.*.*";
-  const showsforStationFilterPart = "&filter={\"show\":{\"radiostation\":\"" + request.params.id + "\"}}&limit=-1";
+  const showsforStationFilterPart = "&filter={\"show\":{\"radiostation\":{\"id\":\"" + stationID + "\"}}}&limit=-1";
 
 
   const showsforStation = await fetch(ShowsforStationUL + showsforStationFilterPart);
@@ -177,22 +181,26 @@ app.get('/station/:id{/:dayid}', async function (request, response) {
     }
   });
   let today;
-  if (request.params.dayid == undefined) {
+  let todayName;
+  if (request.params.dayname == undefined) {
     today = parseInt(thisWeekshows[0].day);  // Parse the day from thisWeekshows
+    todayName = dayNames[today];
   } else {
-    today = parseInt(request.params.dayid);  // Parse the dayid from the request params
+    today = dayID;  // Parse the dayid from the request params
+    
   }
   
   response.render('station.liquid', {
     showsforStation: showsforStationJSON.data,
     stationNameGenerated: stationArr,
+    stationNameGeneratedEncoded: encodeURIComponent(stationArr),
     thisWeek: thisWeek,
     dayNames: dayNames,
     thisWeekShows: updatedWeekShowsforStation,
     radiostations: radiostationsResponseJSON.data,
-    thisstation: parseInt(request.params.id),
+    thisstation: stationID,
     today: today,
-    todayName: dayNames[parseInt(today)]
+    todayName: request.params.dayname
   });
 });
 

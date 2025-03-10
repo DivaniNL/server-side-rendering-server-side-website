@@ -5,7 +5,6 @@
 {% assign curTime = "now" | date: "%H:%M", "Europe/Amsterdam"%}
 {% assign curHours = curTime | split: ":" | first %}
 {% assign curMinutes = curTime | split: ":" | last %}
-
 {% assign curTimeInMinutes = curHours | times: 60 | plus: curMinutes %}
 {% assign totalMinutesInDay = 1440 %}
 
@@ -46,7 +45,7 @@
                               class="active"  
                             {% endif %}
                             
-                            href="/station/{{ thisstation }}/{{ dayIndex }}"> 
+                            href="/{{ stationNameGeneratedEncoded }}/programmering/{{ dayNames[dayIndex] }}"> 
                                 {{ dayNames[dayIndex] }}
                                 <b>{{ thisWeek[index].day }}</b>
                             </a>
@@ -91,8 +90,8 @@
                 {% for todayshows in thisWeekShows offset:0 limit:1 %}
                     {% for oneshow in todayshows.shows %}
                         {% comment %} Start of ChatGPT Code {% endcomment %}
-                        {% assign start_time = oneshow.from | strip | split: ":" %}
-                        {% assign end_time = oneshow.until | strip | split: ":" %}
+                        {% assign start_time = oneshow.from | date: "%H:%M", "Europe/Amsterdam" | strip | split: ":" %}
+                        {% assign end_time = oneshow.until | date: "%H:%M", "Europe/Amsterdam" | strip | split: ":" %}
 
                         {% assign start_hours = start_time[0] | times: 60 %}
                         {% assign start_minutes = start_time[1] | plus: start_hours %}
@@ -101,6 +100,29 @@
 
                         {% assign time_difference = end_minutes | minus: start_minutes %}
                         {% assign hour_difference = end_time[0] | minus: start_time[0] %}
+
+
+                        {% assign start_time_per = start_minutes | divided_by: totalMinutesInDay | times: 100 %}
+                        {% assign end_time_per = end_minutes | divided_by: totalMinutesInDay | times: 100 %}
+
+                        {% if start_time_per < percentageGone and percentageGone < end_time_per %}
+                            {% assign between = true %}
+                        {% else %}
+                            {% assign between = false %}
+                        {% endif %}
+
+                        {% if start_time_per == percentageGone %}
+                            {% assign equal = true %}
+                        {% else %}
+                            {% assign equal = false %}
+                        {% endif %}
+
+                        {% if equal or between %}
+                            {% assign extra_class_percentage = "active-show" %}
+                        {% else %}
+                            {% assign extra_class_percentage = "" %}
+                        {% endif %}
+
                         {% comment %} End of ChatGPT Code {% endcomment %}
                         {% comment %} https://shopify.dev/docs/api/liquid/objects/forloop {% endcomment %}
                         
@@ -123,7 +145,7 @@
                         {% else %}
                             {% assign extra-class = "long-show" %}
                         {% endif %} 
-                        <div class="card-show {{extra-class}} card-show-{{ forloop.index }}" data-hours="{{hour_difference}}" style="min-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); max-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); margin-bottom: 10px;">
+                        <div class="card-show {{extra-class}} {{extra_class_percentage}} card-show-{{ forloop.index }}" data-hours="{{hour_difference}}" style="min-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); max-height: calc(({{ time_difference }} / 1440 * 100%) - 10px); margin-bottom: 10px;">
                             <figure>
                                 <img src="https://fdnd-agency.directus.app/assets/{{oneshow.users[0].mh_users_id.cover}}" alt="Foto van {{oneshow.users[0].mh_users_id.full_name }}" class="deejay-image">
                             </figure>    

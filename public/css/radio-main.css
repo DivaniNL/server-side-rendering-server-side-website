@@ -242,6 +242,70 @@ main.radio-station{
                        border-right: 0;
                     }
                 }
+                &.active-show {
+                    overflow: hidden;
+                    @media (max-width :1200px){
+                        figure{
+                            background-color: var(--color-secondary);
+                            border-color: var(--color-secondary);
+                        }
+                        .part-content{
+                            border-top-right-radius: 8px;
+                            border-bottom-right-radius: 8px;
+                            border: 2px solid var(--color-secondary);
+                            .text-l{
+                                color: var(--color-secondary);
+                            }
+                        }
+                    }
+                    @media (min-width: 1200px){
+                        background-color: var(--color-secondary);
+                        .part-content{
+                            .text-l{
+                                color: var(--color-white);
+                            }
+                            p, p.body   {
+                                color: var(--color-white);
+                            }
+                            .show-time, .show-deejay{
+                                color: var(--color-white);
+                                time{
+                                    color: var(--color-white);
+                                }
+                                svg > *{
+                                    fill: var(--color-white);
+                                }
+                            }
+                            svg{
+                                fill: var(--color-white);
+                            }
+                        }
+                    }
+
+                    
+
+                    /* color: var(--color-white);
+                    .part-content{
+                        .text-l{
+                            color: var(--color-white);
+                        }
+                        p, p.body   {
+                            color: var(--color-white);
+                        }
+                        .show-time, .show-deejay{
+                            color: var(--color-white);
+                            time{
+                                color: var(--color-white);
+                            }
+                            svg > *{
+                                fill: var(--color-white);
+                            }
+                        }
+                        svg{
+                            fill: var(--color-white);
+                        }
+                    } */
+                }
 
                 .part-content{
                     padding: 1rem 12px 1rem 1rem;
