@@ -1,6 +1,6 @@
 main.radio-station{
     background-color: var(--color-bg);
-    max-width: calc(100vw - 17px);
+    /* max-width: calc(100vw - 17px); */
     padding-bottom: 125px; /* fixed footer */
     @media (min-width: 680px){
         padding-bottom: 35px;
@@ -23,7 +23,8 @@ main.radio-station{
             gap: 24px;
             nav.sticky-menu-top{
                 position: relative;
-                width: calc(100vw - 17px);
+                /* width: calc(100vw - 17px); */
+                overflow-x: scroll;
                 &:after{
                     content: "";
                     position: absolute;
@@ -65,7 +66,7 @@ main.radio-station{
                 
             }
             nav.day-menu{
-                width: calc(100vw - 17px);
+                /* width: calc(100vw - 17px); */
                 ul{
                     display: flex;
                     list-style: none;
