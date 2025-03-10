@@ -1,7 +1,7 @@
 {% render 'partials/head.liquid' title: "Mediahuis" style: thisstation  v: "o" %}
 {% render 'partials/header.liquid' v: "o" thisstation: thisstation title: "Mediahuis" %}{% comment %} Version : Other {% endcomment %}
 
-{% comment %} Start of Caht GPT Code [Calc percentage of minutes pased] {% endcomment %}
+{% comment %} Start of Chat GPT Code [Calc percentage of minutes pased] {% endcomment %}
 {% assign curTime = "now" | date: "%H:%M", "Europe/Amsterdam"%}
 {% assign curHours = curTime | split: ":" | first %}
 {% assign curMinutes = curTime | split: ":" | last %}
@@ -105,23 +105,12 @@
                         {% assign start_time_per = start_minutes | divided_by: totalMinutesInDay | times: 100 %}
                         {% assign end_time_per = end_minutes | divided_by: totalMinutesInDay | times: 100 %}
 
-                        {% if start_time_per < percentageGone and percentageGone < end_time_per %}
-                            {% assign between = true %}
-                        {% else %}
-                            {% assign between = false %}
-                        {% endif %}
-
-                        {% if start_time_per == percentageGone %}
-                            {% assign equal = true %}
-                        {% else %}
-                            {% assign equal = false %}
-                        {% endif %}
-
-                        {% if equal or between %}
+                        {% if start_time_per <= percentageGone and percentageGone < end_time_per %}
                             {% assign extra_class_percentage = "active-show" %}
                         {% else %}
                             {% assign extra_class_percentage = "" %}
                         {% endif %}
+
 
                         {% comment %} End of ChatGPT Code {% endcomment %}
                         {% comment %} https://shopify.dev/docs/api/liquid/objects/forloop {% endcomment %}
