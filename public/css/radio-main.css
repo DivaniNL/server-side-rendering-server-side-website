@@ -55,7 +55,7 @@ main.radio-station{
                             color: var(--color-text-ghost);
                             font-weight: 900;
                             text-transform: uppercase;
-                            &:hover, &:focus{
+                            &:hover, &:focus, &.active{
                                 color: var(--color-secondary);
 
                                 border-bottom: 1px solid var(--color-secondary);

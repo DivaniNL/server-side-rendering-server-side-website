@@ -24,7 +24,7 @@
                     svg, svg > *{
                         fill: var(--color-foot-icon);
                     }
-                    &:hover, &:focus{
+                    &:hover, &:focus, &.active{
                         color: var(--color-icon-hover);
                         svg, svg > *{
                             fill: var(--color-icon-hover);
