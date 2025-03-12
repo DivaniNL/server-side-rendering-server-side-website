@@ -25,7 +25,7 @@
                 {% for radiostation in radiostations %}
                     {% if radiostation.id != thisstation %}
                         <div class="one-radiostation block-radio-{{radiostation.id}}">
-                            <a href="/{{radiostation.name | url_encode | replace: '+', '%20'}}/programmering">
+                            <a href="/station/{{radiostation.name | url_encode | replace: '+', '%20'}}/programmering">
                                 <img src="/assets/radio-{{ radiostation.id }}.png" alt="Logo van {{radiostation.name }}">
                                 {% if radiostation.id > 3 %}
                                     <img class="tbd" src="/assets/TBD.png" alt="Deze zender is nog niet beschikbaar">

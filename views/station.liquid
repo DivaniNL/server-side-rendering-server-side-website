@@ -141,7 +141,7 @@
                             <div class="part-content">
                                 <h2 class="text-l">{{oneshow.name}}</h2>
                                 {% if hour_difference > 1 %}
-                                    <p class="body">{{oneshow.body}}</p>
+                                    <p class="body">{{oneshow.body | truncate: 300}}</p>
                                 {% endif %}
                                 <p class="show-time part-ghost">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">

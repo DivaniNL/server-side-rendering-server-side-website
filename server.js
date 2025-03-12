@@ -62,8 +62,7 @@ app.get('/', async function (request, response) {
 })
 
 // https://www.npmjs.com/package/path-to-regexp#optional - Optional parameters
-app.get('/:name{/programmering}{/:dayname}', async function (request, response) {
-
+app.get('/station/:name{/programmering}{/:dayname}', async function (request, response) {
   const dayNames = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
   
   const thisWeekshows = [];
@@ -181,7 +180,6 @@ app.get('/:name{/programmering}{/:dayname}', async function (request, response) 
     }
   });
   let today;
-  let todayName;
   if (request.params.dayname == undefined) {
     today = parseInt(thisWeekshows[0].day);  // Parse the day from thisWeekshows
     todayName = dayNames[today];
@@ -205,13 +203,66 @@ app.get('/:name{/programmering}{/:dayname}', async function (request, response) 
 });
 
 
-// Maak een POST route voor de index; hiermee kun je bijvoorbeeld formulieren afvangen
-// Hier doen we nu nog niets mee, maar je kunt er mee spelen als je wilt
-app.post('/', async function (request, response) {
+
+const personResponse1 = await fetch('https://fdnd.directus.app/items/person/?sort=name&fields=name');
+const personResponse1JSON = await personResponse1.json();
+app.get('/experiment1', async function (request, response) {
+  response.render('12-04-experiment-directus.liquid', {persons: personResponse1JSON.data})
+});
+
+const personResponse2 = await fetch('https://fdnd.directus.app/items/person/?sort=name&fields=name&filter[name][_istarts_with]=d');
+const personResponse2JSON = await personResponse2.json();
+app.get('/experiment2', async function (request, response) {
+  // Je zou hier data kunnen opslaan, of veranderen, of wat je maar wilt
+  // Er is nog geen afhandeling van een POST, dus stuur de bezoeker terug naar /
+  response.render('12-04-experiment-directus.liquid', {persons: personResponse2JSON.data})
+});
+
+
+const personResponse3 = await fetch('https://fdnd.directus.app/items/person/?fields=name&filter[_or][0][name][_istarts_with]=d&filter[_or][1][name][_istarts_with]=k');
+const personResponse3JSON = await personResponse3.json();
+app.get('/experiment3', async function (request, response) {
+  // Je zou hier data kunnen opslaan, of veranderen, of wat je maar wilt
+  // Er is nog geen afhandeling van een POST, dus stuur de bezoeker terug naar /
+  response.render('12-04-experiment-directus.liquid', {persons: personResponse3JSON.data})
+});
+
+const personResponse4 = await fetch('https://fdnd.directus.app/items/person/?fields=name,birthdate&filter[birthdate][_nnull]=true');
+const personResponse4JSON = await personResponse4.json();
+app.get('/experiment4', async function (request, response) {
+  // Je zou hier data kunnen opslaan, of veranderen, of wat je maar wilt
+  // Er is nog geen afhandeling van een POST, dus stuur de bezoeker terug naar /
+  response.render('12-04-experiment-directus.liquid', {persons: personResponse4JSON.data})
+});
+
+const personResponse5 = await fetch('https://fdnd.directus.app/items/person/?fields=name,birthdate&filter[year(birthdate)][_eq]=2002');
+const personResponse5JSON = await personResponse5.json();
+app.get('/experiment4', async function (request, response) {
+  // Je zou hier data kunnen opslaan, of veranderen, of wat je maar wilt
+  // Er is nog geen afhandeling van een POST, dus stuur de bezoeker terug naar /
+  response.render('12-04-experiment-directus.liquid', {persons: personResponse5JSON.data})
+});
+
+
+
+
+const personResponse2_1 = await fetch('https://fdnd.directus.app/items/person/?sort=name&limit=-1');
+const personResponse2_1JSON = await personResponse2_1.json();
+app.get('/experiment2-1', async function (request, response) {
+  response.render('12-04-experiment-loop.liquid', {persons: personResponse2_1JSON.data})
+});
+
+
+
+
+
+app.get('/', async function (request, response) {
   // Je zou hier data kunnen opslaan, of veranderen, of wat je maar wilt
   // Er is nog geen afhandeling van een POST, dus stuur de bezoeker terug naar /
   response.redirect(303, '/')
 })
+
+
 
 // Stel het poortnummer in waar Express op moet gaan luisteren
 // Lokaal is dit poort 8000, als dit ergens gehost wordt, is het waarschijnlijk poort 80
@@ -222,3 +273,6 @@ app.listen(app.get('port'), function () {
   // Toon een bericht in de console en geef het poortnummer door
   console.log(`Application started on http://localhost:${app.get('port')}`)
 })
+
+
+

@@ -1,0 +1,46 @@
+Experiment 1: Bij de eerste een stuk html toevoegen
+
+{% for person in persons %}
+
+    {% if forloop.index == 1 %}
+        <h1>Mijn maan is</h1>
+    {% endif %}
+    {{person.name}}
+    {% if forloop.index == 1 %}
+        <h2>en mijn klasgenoten zijn:</h2><br>
+    {% endif %}
+{% endfor %}
+
+<br>
+<hr>
+Experiment 2: bij de laatste geen komma.
+<hr>
+<br>
+{% for person in persons %}
+    {% if forloop.last %}
+        {{person.name}}
+    {% else %}
+        {{person.name}},
+    {% endif %}
+{% endfor %}
+<br>
+<hr>
+Experiment 3: omgekeerd
+<hr>
+<br>
+{% for person in persons reversed %}
+    {{person.name}},
+{% endfor %}
+<br>
+<hr>
+Experiment 4: In elk 4e item html
+<hr>
+<br>
+{% for person in persons %}
+    {% assign dev4 = forloop.index | modulo: 4 %}
+    {% if dev4 == 0 %}
+        <b>{{person.name}}</b>,
+    {% else %}
+        {{person.name}},
+    {% endif %}
+{% endfor %}
