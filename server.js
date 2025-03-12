@@ -180,7 +180,7 @@ app.get('/station/:name{/programmering}{/:dayname}', async function (request, re
     }
   });
   let today;
-  let todayname;
+  let todayName;
   if (request.params.dayname == undefined) {
     today = parseInt(thisWeekshows[0].day);  // Parse the day from thisWeekshows
     todayName = dayNames[today];
